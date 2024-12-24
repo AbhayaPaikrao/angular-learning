@@ -1,4 +1,4 @@
-# LazyLoading and directive
+# LazyLoading and directive.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
 
