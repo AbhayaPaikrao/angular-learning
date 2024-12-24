@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -12,16 +13,36 @@ export class LoginComponent {
     password: '',
   };
 
-  constructor(private route: Router) {}
+  apiLoginObj = {
+    EmailId: '',
+    Password: '',
+  };
+
+  constructor(private route: Router, private http: HttpClient) {}
+
   onLogin() {
-    if (
-      this.loginObj.userName === 'Abhaya' &&
-      this.loginObj.password === 'Hi'
-    ) {
-      localStorage.setItem('userName', this.loginObj.userName);
-      this.route.navigate(['student/list']);
-    } else {
-      alert('wrong password');
-    }
+    // if (
+    //   this.loginObj.userName === 'Abhaya' &&
+    //   this.loginObj.password === 'Hi'
+    // ) {
+    //   localStorage.setItem('userName', this.loginObj.userName);
+    //   this.route.navigate(['student/list']);
+    // } else {
+    //   alert('wrong password');
+    // }
+
+    this.http
+      .post('https://projectapi.gerasim.in/api/UserApp/login', this.apiLoginObj)
+      .subscribe({
+        next: (resp: any) => {
+          if (resp) {
+            localStorage.setItem('userName', resp.data.token);
+            this.route.navigateByUrl('student/list');
+          }
+        },
+        error: (err: any) => {
+          alert('Login Failed!');
+        },
+      });
   }
 }
